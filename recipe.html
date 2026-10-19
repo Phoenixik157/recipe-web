@@ -5,36 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Рецепт</title>
     <style>
-        body { background: #121212; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-        .card { background: #1E1E1E; padding: 30px; border-radius: 16px; border: 1px solid #2C2C2C; max-width: 400px; width: 100%; text-align: center; }
-        h1 { color: #FF7043; margin-bottom: 20px; font-size: 24px; }
-        .instructions { text-align: left; color: #E0E0E0; font-size: 14px; line-height: 1.6; white-space: pre-wrap; margin-bottom: 20px; }
-        .btn { display: inline-block; padding: 12px 24px; background: #FF7043; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; }
+        body { background: #121212; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .card { background: #1E1E1E; padding: 40px 20px; border-radius: 16px; border: 1px solid #2C2C2C; max-width: 320px; width: 100%; text-align: center; }
+        h1 { color: #FF7043; margin-bottom: 10px; font-size: 24px; }
+        p { color: #9E9E9E; font-size: 14px; margin-bottom: 25px; }
+        .btn { display: inline-block; padding: 14px 24px; background: #FF7043; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; width: 100%; box-sizing: border-box; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h1 id="title">Загрузка...</h1>
-        <div id="instructions" class="instructions"></div>
-        <!-- Эта кнопка пытается открыть приложение, если оно установлено -->
+        <h1>Вкусный рецепт</h1>
+        <p id="text">Загрузка...</p>
+        
+        <!-- Кнопка, которая откроет приложение через intent -->
         <a id="openAppBtn" class="btn" style="display:none;">Открыть в приложении</a>
     </div>
+    
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const title = urlParams.get('title');
-        const instructions = urlParams.get('instructions');
+        const id = urlParams.get('id');
         
-        if (title) {
-            document.getElementById('title').innerText = decodeURIComponent(title);
-            document.getElementById('instructions').innerText = instructions ? decodeURIComponent(instructions) : 'Инструкция не указана.';
+        if (id) {
+            document.getElementById('text').innerText = `Рецепт #${id} доступен в нашем приложении! Нажмите кнопку ниже.`;
             
-            // Кнопка для попытки открыть приложение (через стандартный intent)
             const btn = document.getElementById('openAppBtn');
             btn.style.display = 'inline-block';
-            btn.href = window.location.href; // Ссылается сама на себя, триггерит перехват
+            
+            // ФОРМАТ INTENT: принудительно открывает приложение com.example.application
+            // Если приложение не установлено, сработает fallback (откроется Play Store или ничего)
+            btn.href = `intent://phoenixik157.github.io/recipe-web/recipe.html?id=${id}#Intent;scheme=https;package=com.example.application;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.example.application;end`;
         } else {
-            document.getElementById('title').innerText = "Вкусный рецепт";
-            document.getElementById('instructions').innerText = "Отсканируйте QR-код из приложения.";
+            document.getElementById('text').innerText = "Добро пожаловать в кулинарную книгу!";
         }
     </script>
 </body>
