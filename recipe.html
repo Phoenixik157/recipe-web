@@ -5,37 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Рецепт</title>
     <style>
-        body { background: #121212; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; text-align: center; }
-        .card { background: #1E1E1E; padding: 40px 20px; border-radius: 16px; border: 1px solid #2C2C2C; max-width: 300px; }
-        h1 { color: #FF7043; margin-bottom: 10px; }
-        p { color: #9E9E9E; font-size: 14px; }
-        .btn { display: inline-block; margin-top: 20px; padding: 12px 24px; background: #FF7043; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; }
+        body { background: #121212; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .card { background: #1E1E1E; padding: 30px; border-radius: 16px; border: 1px solid #2C2C2C; max-width: 400px; width: 100%; text-align: center; }
+        h1 { color: #FF7043; margin-bottom: 20px; font-size: 24px; }
+        .instructions { text-align: left; color: #E0E0E0; font-size: 14px; line-height: 1.6; white-space: pre-wrap; margin-bottom: 20px; }
+        .btn { display: inline-block; padding: 12px 24px; background: #FF7043; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h1>Вкусный рецепт</h1>
-        <p id="text">Загрузка...</p>
+        <h1 id="title">Загрузка...</h1>
+        <div id="instructions" class="instructions"></div>
+        <!-- Эта кнопка пытается открыть приложение, если оно установлено -->
         <a id="openAppBtn" class="btn" style="display:none;">Открыть в приложении</a>
     </div>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id') || '';
+        const title = urlParams.get('title');
+        const instructions = urlParams.get('instructions');
         
-        if (id) {
-            document.getElementById('text').innerHTML = `Рецепт #${id} доступен в нашем приложении!<br>Нажмите кнопку ниже.`;
+        if (title) {
+            document.getElementById('title').innerText = decodeURIComponent(title);
+            document.getElementById('instructions').innerText = instructions ? decodeURIComponent(instructions) : 'Инструкция не указана.';
             
-            // Показываем кнопку и вешаем на неё нашу схему
+            // Кнопка для попытки открыть приложение (через стандартный intent)
             const btn = document.getElementById('openAppBtn');
             btn.style.display = 'inline-block';
-            btn.href = `recipeapp://recipe?id=${id}`;
-            
-            // Пытаемся открыть приложение автоматически через 500мс
-            setTimeout(() => {
-                window.location.href = `recipeapp://recipe?id=${id}`;
-            }, 500);
+            btn.href = window.location.href; // Ссылается сама на себя, триггерит перехват
         } else {
-            document.getElementById('text').innerHTML = "Добро пожаловать в кулинарную книгу!";
+            document.getElementById('title').innerText = "Вкусный рецепт";
+            document.getElementById('instructions').innerText = "Отсканируйте QR-код из приложения.";
         }
     </script>
 </body>
