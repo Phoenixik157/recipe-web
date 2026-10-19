@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рецепт</title>
+    <style>
+        body { background: #121212; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; text-align: center; }
+        .card { background: #1E1E1E; padding: 40px 20px; border-radius: 16px; border: 1px solid #2C2C2C; max-width: 300px; }
+        h1 { color: #FF7043; margin-bottom: 10px; }
+        p { color: #9E9E9E; font-size: 14px; }
+        .btn { display: inline-block; margin-top: 20px; padding: 12px 24px; background: #FF7043; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Вкусный рецепт</h1>
+        <p id="text">Загрузка...</p>
+        <a href="https://play.google.com/store/apps/details?id=com.example.application" class="btn">Открыть в приложении</a>
+    </div>
+    <script>
+        // Получаем ID рецепта из ссылки (?id=123)
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        document.getElementById('text').innerHTML = id 
+            ? `Рецепт #${id} доступен в нашем приложении!<br>Скачайте его, чтобы увидеть ингредиенты и способ приготовления.`
+            : "Добро пожаловать в кулинарную книгу!";
+    </script>
+</body>
+</html>
