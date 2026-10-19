@@ -16,15 +16,13 @@
     <div class="card">
         <h1>Вкусный рецепт</h1>
         <p id="text">Загрузка...</p>
-        <a href="https://play.google.com/store/apps/details?id=com.example.application" class="btn">Открыть в приложении</a>
+        <a id="openAppBtn" class="btn">Открыть в приложении</a>
     </div>
     <script>
-        // Получаем ID рецепта из ссылки (?id=123)
         const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
-        document.getElementById('text').innerHTML = id 
-            ? `Рецепт #${id} доступен в нашем приложении!<br>Скачайте его, чтобы увидеть ингредиенты и способ приготовления.`
-            : "Добро пожаловать в кулинарную книгу!";
+        const id = urlParams.get('id') || '';
+        // Ссылка на приложение (Deep Link)
+        document.getElementById('openAppBtn').href = `https://phoenixik157.github.io/recipe-web/recipe.html?id=${id}`;
     </script>
 </body>
 </html>
