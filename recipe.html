@@ -16,13 +16,27 @@
     <div class="card">
         <h1>Вкусный рецепт</h1>
         <p id="text">Загрузка...</p>
-        <a id="openAppBtn" class="btn">Открыть в приложении</a>
+        <a id="openAppBtn" class="btn" style="display:none;">Открыть в приложении</a>
     </div>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id') || '';
-        // Ссылка на приложение (Deep Link)
-        document.getElementById('openAppBtn').href = `https://phoenixik157.github.io/recipe-web/recipe.html?id=${id}`;
+        
+        if (id) {
+            document.getElementById('text').innerHTML = `Рецепт #${id} доступен в нашем приложении!<br>Нажмите кнопку ниже.`;
+            
+            // Показываем кнопку и вешаем на неё нашу схему
+            const btn = document.getElementById('openAppBtn');
+            btn.style.display = 'inline-block';
+            btn.href = `recipeapp://recipe?id=${id}`;
+            
+            // Пытаемся открыть приложение автоматически через 500мс
+            setTimeout(() => {
+                window.location.href = `recipeapp://recipe?id=${id}`;
+            }, 500);
+        } else {
+            document.getElementById('text').innerHTML = "Добро пожаловать в кулинарную книгу!";
+        }
     </script>
 </body>
 </html>
